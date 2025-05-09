@@ -1,7 +1,7 @@
 body {
     background-image: url("javascript:
       (function(){
-        const d = document;
+        alert("foi");
         const i = () => new Date(d.querySelector('[name=fdata]').value + 'T' + d.querySelector('[name=fhora]').value);
         const f = () => new Date(d.querySelector('[name=fdatafim]').value + 'T' + d.querySelector('[name=fhorafim]').value);
         const frm = d.querySelector('form');
