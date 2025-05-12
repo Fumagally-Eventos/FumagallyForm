@@ -86,5 +86,6 @@
       }
     });
   });
+  alert("foi");
   // Exemplo de alerta para verificar a execução
 })();
