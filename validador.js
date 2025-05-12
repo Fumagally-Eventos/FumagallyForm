@@ -1,5 +1,6 @@
 (function () {
   document.getElementById("prrprrpatapim").remove();
+  alert("foi");
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector(".contact_form");
 
@@ -86,6 +87,6 @@
       }
     });
   });
-  alert("foi");
+
   // Exemplo de alerta para verificar a execução
 })();
