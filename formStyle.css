@@ -97,3 +97,12 @@ h3 {
     border: none;
     cursor: pointer;
   }
+  .input-error {
+    border-color: red !important;
+  }
+  
+  button[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
