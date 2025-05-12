@@ -18,6 +18,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const allRequired = form.querySelectorAll("[required]");
 
+  // Função para carregar scripts dinamicamente
+  function loadScript(src, callback) {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  // Carrega o flatpickr e em seguida o idioma pt
+  loadScript("https://cdn.jsdelivr.net/npm/flatpickr", () => {
+    loadScript("https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js", () => {
+      // Inicializa o flatpickr após todos os scripts carregados
+      flatpickr("#datetimeRange", {
+        enableTime: true,
+        time_24hr: true,
+        dateFormat: "d/m/Y H:i",
+        mode: "range",
+        locale: "pt",
+        minDate: "today",
+        minuteIncrement: 5,
+        onClose: function (selectedDates, dateStr, instance) {
+          const [start, end] = selectedDates;
+          const input = document.getElementById("datetimeRange");
+
+          if (!start || !end) {
+            input.classList.add("input-error");
+            showError(
+              input,
+              "Você deve selecionar data e hora de início e fim."
+            );
+          } else if (end <= start) {
+            input.classList.add("input-error");
+            showError(
+              input,
+              "A data de término deve ser posterior à de início."
+            );
+          } else {
+            input.classList.remove("input-error");
+            clearError(input);
+          }
+
+          updateSubmitState();
+        },
+      });
+    });
+  });
+
   function showError(input, message) {
     let container = input.closest(".form-group") || input.parentElement;
     let error = container.querySelector(".error-message");
