@@ -55,6 +55,7 @@
       altInput: true,
       altFormat: "d/m/Y",
       dateFormat: "Y-m-d",
+      disableMobile: true, // ← força flatpickr no mobile
       plugins: [new rangePlugin({ input: "#dateEnd" })],
     });
   }
