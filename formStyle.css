@@ -64,6 +64,7 @@ h3 {
     border-radius: 5px;
     top: 20px;
     left: 0;
+    width: 24rem;
     white-space: pre-wrap;
     z-index: 10;
   }
