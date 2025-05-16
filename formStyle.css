@@ -75,6 +75,7 @@ footer {
 .form-inline .form-control {
   flex: 1;
   width: 0px;
+  text-align: center;
 }
 
 .hidden-box {
