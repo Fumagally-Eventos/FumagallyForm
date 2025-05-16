@@ -12,6 +12,7 @@ footer {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  min-width: 41rem;
 }
 
 .form-section h3 {
@@ -25,6 +26,14 @@ footer {
   flex-direction: column;
   margin-bottom: 15px;
   position: relative;
+}
+
+.dates-wrapper {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
 .form-inline,
@@ -148,6 +157,9 @@ button[disabled] {
 @media (max-width: 768px) {
   .tooltip-icon::after {
     max-width: 15rem;
+  }
+  .dates-wrapper {
+    flex-direction: column;
   }
 }
 
