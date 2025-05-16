@@ -1,4 +1,6 @@
 (function () {
+  document.getElementById("prrprrpatapim").remove();
+
   function loadFlatpickrDependencies(callback) {
     const flatpickrCss = document.createElement("link");
     flatpickrCss.rel = "stylesheet";
@@ -40,13 +42,16 @@
       <label>Data do Evento* 
         <span class="tooltip-icon" data-tooltip="Escolha uma ou mais datas para o evento (não inclua as datas de montagem/desmontagem caso estas sejam no dia posterior/anterior)">?</span>
       </label>
+      <div class="dates-wrapper">
       <div class="form-inline">
         <input id="dateStart" name="fdata" class="form-control" placeholder="Início do Evento" required>
-        <input id="dateEnd" name="fdatafim" class="form-control" placeholder="Final do Evento" required>
-      </div>
-      <div class="form-inline" style="margin-top: 5px;">
         <input id="timeStart" name="fhora" class="form-control" placeholder="Hora de início" required>
+      </div>
+      <b>até</b>
+      <div class="form-inline" style="margin-top: 5px;">
+        <input id="dateEnd" name="fdatafim" class="form-control" placeholder="Final do Evento" required>
         <input id="timeEnd" name="fhorafim" class="form-control" placeholder="Hora do termino" required>
+      </div>
       </div>
     `;
 
@@ -186,7 +191,6 @@
               "animationend",
               () => {
                 field.classList.remove("fade-in");
-                field.classList.add("final-state");
               },
               { once: true }
             );
