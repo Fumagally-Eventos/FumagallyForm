@@ -43,6 +43,7 @@ footer {
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  width: 100%;
 }
 .radio-group,
 .checkbox-group {
