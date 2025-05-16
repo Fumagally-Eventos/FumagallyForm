@@ -68,7 +68,7 @@ footer {
   padding: 6px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background-color: #fff;
+  background-color: #fff !important;
   width: 100%;
 }
 
