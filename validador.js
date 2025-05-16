@@ -343,19 +343,18 @@
         // --- FORMATAÇÃO DE FOBS ---
         const fobsParts = [];
 
-        const fobs1 = "Area do Evento: " + formData.get("fobs1") || "";
-        const fobs2 = "Flexibilidade Montagem: " + formData.get("fobs2") || "";
-        const fobs3 =
-          "Flexibilidade Desmontagem: " + formData.get("fobs3") || "";
+        const fobs1 = "fobs1: " + formData.get("fobs1") || "";
+        const fobs2 = "fobs2: " + formData.get("fobs2") || "";
+        const fobs3 = "fobs3: " + formData.get("fobs3") || "";
         const qtd2x2 = formData.get("fobs4qtd2x2") || "";
         const qtd1x1 = formData.get("fobs4qtd1.5") || "";
-        const fobs5 = "Estacionamento: " + formData.get("fobs5") || "";
-        const fobs6 = "Facilidade de Acesso: " + formData.get("fobs6") || "";
-        const fobs7 = "Mensagem: " + formData.get("fobs7") || "";
+        const fobs5 = "fobs5: " + formData.get("fobs5") || "";
+        const fobs6 = "fobs6: " + formData.get("fobs6") || "";
+        const fobs7 = "fobs7: " + formData.get("fobs7") || "";
 
         const fobs4 = [];
-        if (qtd2x2.trim() !== "") fobs4.push(`barracas 2x2:${qtd2x2}`);
-        if (qtd1x1.trim() !== "") fobs4.push(`barracas 1.5x1.5:${qtd1x1}`);
+        if (qtd2x2.trim() !== "") fobs4.push(`fobs4 2x2:${qtd2x2}`);
+        if (qtd1x1.trim() !== "") fobs4.push(`fobs4 1.5x1.5:${qtd1x1}`);
 
         fobsParts.push(fobs1, fobs2, fobs3);
         if (fobs4.length > 0) fobsParts.push(fobs4.join(" "));
