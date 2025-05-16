@@ -3,6 +3,11 @@ h3 {
   justify-content: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 footer {
   display: none;
 }
