@@ -297,7 +297,7 @@
 
     if (submitButton) {
       submitButton.type = "button";
-      submitButton.textContent = "Enviar Formatado";
+      submitButton.textContent = "Solicitar Orçamento";
       submitButton.addEventListener("click", function () {
         const form = document.getElementById("formdoc");
         const formData = new FormData(form);
