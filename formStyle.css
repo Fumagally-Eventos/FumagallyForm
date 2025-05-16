@@ -163,6 +163,9 @@ button[disabled] {
   .dates-wrapper {
     flex-direction: column;
   }
+  .form-section {
+    min-width: unset;
+  }
 }
 
 @keyframes slideFadeIn {
