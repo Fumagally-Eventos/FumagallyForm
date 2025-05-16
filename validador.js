@@ -67,6 +67,7 @@
       dateFormat: "Y-m-d",
       locale: "pt",
       disableMobile: true,
+      minDate: "today",
       plugins: [new rangePlugin({ input: "#dateEnd" })],
     });
 
@@ -78,6 +79,7 @@
         time_24hr: true,
         locale: "pt",
         disableMobile: true,
+        minDate: "today",
       });
     });
   }
