@@ -39,7 +39,7 @@
     const group = document.createElement("div");
     group.className = "form-group";
     group.innerHTML = `
-      <label>Data do Evento* 
+      <label id="fdatalabel">Data do Evento* 
         <span class="tooltip-icon" data-tooltip="Escolha uma ou mais datas para o evento (não inclua as datas de montagem/desmontagem caso estas sejam no dia posterior/anterior)">?</span>
       </label>
       <div class="dates-wrapper">
@@ -236,15 +236,36 @@
 
       for (const input of inputs) {
         document.getElementById(input.name + "label").style.backgroundColor =
-          "red";
-        console.log(document.getElementById(input.name + "label"));
+          "#dfd7fa";
         if (input.required) {
           const value = input.value.trim();
           if (!value) {
-            document.getElementById(
-              input.name + "label"
-            ).style.backgroundColor = "green";
-            return false;
+            if (
+              input.name === "fhora" ||
+              input.name === "fhorafim" ||
+              input.name === "fdatafim" ||
+              input.name === "fdata"
+            ) {
+              const fhorafim = document.getElementsByName("fhorafim")[0];
+              const fhora = document.getElementsByName("fhora")[0];
+              const fdatafim = document.getElementsByName("fdatafim")[0];
+              const fdata = document.getElementsByName("fdata")[0];
+              if (
+                !fhorafim.value ||
+                !fhora.value ||
+                !fdatafim.value ||
+                !fdata.value
+              ) {
+                document.getElementById("fdatalabel").style.backgroundColor =
+                  "#faecd7";
+                return false;
+              }
+            } else {
+              document.getElementById(
+                input.name + "label"
+              ).style.backgroundColor = "#faecd7";
+              return false;
+            }
           }
 
           if (input.name === "fcelular" && !isValidPhone(value)) {
