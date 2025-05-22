@@ -389,6 +389,22 @@
         form.submit();
       });
       submitButton.style.display = "none";
+
+      document
+        .getElementById("formdoc")
+        .addEventListener("submit", function (event) {
+          const checkboxes = document.querySelectorAll('input[name="opcao"]');
+          const peloMenosUmMarcado = Array.from(checkboxes).some(
+            (cb) => cb.checked
+          );
+
+          if (!peloMenosUmMarcado) {
+            event.preventDefault();
+            alert(
+              "Você precisa marcar ao menos um dos itens na lista, e selecionar a quantidade desejada."
+            );
+          }
+        });
     }
   })();
 })();
