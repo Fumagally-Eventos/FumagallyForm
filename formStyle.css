@@ -195,6 +195,24 @@ button[disabled] {
   }
 }
 
+div.panel-heading {
+  display: none;
+  animation: wwws 1.5s ease-in-out forwards;
+}
+
+@keyframes wwws {
+  0% {
+    display: none;
+  }
+  99% {
+    display: none;
+  }
+  100% {
+    background: green;
+    display: block;
+  }
+}
+
 @keyframes slideFadeIn {
   from {
     opacity: 0;
