@@ -3,6 +3,10 @@ h3 {
   justify-content: center;
 }
 
+body {
+  height: 100vh;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -10,27 +14,6 @@ form {
 
 footer {
   display: none;
-}
-
-body {
-  height: 100vh;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  animation: initialAnimation 1.5s ease-in;
-}
-
-img {
-  transform: scale(1);
-  animation: initialAnimationx 1.5s ease-in-out;
-}
-
-div.intro-text > center > div {
-  display: flex;
-  justify-content: center;
 }
 
 .form-section {
@@ -196,6 +179,17 @@ button[disabled] {
   }
 }
 
+@keyframes initialAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes slideFadeIn {
   from {
     opacity: 0;
@@ -224,28 +218,4 @@ button[disabled] {
 
 .fade-in {
   animation: fadeInCascade 0.7s ease-in-out forwards;
-}
-
-@keyframes initialAnimation {
-  0% {
-    height: 100vh;
-  }
-  75% {
-    height: 100vh;
-  }
-  100% {
-    height: 13%;
-  }
-}
-
-@keyframes initialAnimationx {
-  0% {
-    transform: scale(1.4);
-  }
-  75% {
-    transform: scale(1.4);
-  }
-  99% {
-    transform: scale(1);
-  }
 }
