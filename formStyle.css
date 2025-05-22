@@ -34,6 +34,10 @@ img {
   padding-top: 15vh;
 }
 
+.first-section {
+  animation-delay: 1.5s;
+}
+
 .form-section {
   margin-bottom: 30px;
   padding: 15px;
