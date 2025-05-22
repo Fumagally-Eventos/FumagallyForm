@@ -230,12 +230,14 @@
 
     function validateSection(section) {
       const inputs = section.querySelectorAll("input, select, textarea");
-      console.log(section);
       const fobs2 = section.querySelectorAll('input[name="fobs2"]');
       const fobs3 = section.querySelectorAll('input[name="fobs3"]');
       const checkboxes = section.querySelectorAll('input[name="opcao"]');
 
       for (const input of inputs) {
+        document.getElementById(input.name + "label").style.backgroundColor =
+          "red";
+        console.log(document.getElementById(input.name + "label"));
         if (input.required) {
           const value = input.value.trim();
           if (!value) {
