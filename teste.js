@@ -1,3 +1,3 @@
 (function () {
-  alert("foi");
+  alert("foi", window.location.origin);
 })();
