@@ -235,6 +235,7 @@
       const checkboxes = section.querySelectorAll('input[name="opcao"]');
 
       for (const input of inputs) {
+        console.log(input);
         document.getElementById(input.name + "label").style.backgroundColor =
           "#dfd7fa";
         if (input.required) {
@@ -246,16 +247,11 @@
               input.name === "fdatafim" ||
               input.name === "fdata"
             ) {
-              const fhorafim = document.getElementsByName("fhorafim")[0];
-              const fhora = document.getElementsByName("fhora")[0];
-              const fdatafim = document.getElementsByName("fdatafim")[0];
-              const fdata = document.getElementsByName("fdata")[0];
-              if (
-                !fhorafim.value ||
-                !fhora.value ||
-                !fdatafim.value ||
-                !fdata.value
-              ) {
+              const fhorafim = document.getElementsByName("fhorafim")[0].value;
+              const fhora = document.getElementsByName("fhora")[0].value;
+              const fdatafim = document.getElementsByName("fdatafim")[0].value;
+              const fdata = document.getElementsByName("fdata")[0].value;
+              if (!fhorafim || !fhora || !fdatafim || !fdata) {
                 document.getElementById("fdatalabel").style.backgroundColor =
                   "#faecd7";
                 return false;
@@ -282,6 +278,8 @@
           );
 
           if (!peloMenosUmMarcado) {
+            document.getElementById("fdatalabel").style.backgroundColor =
+              "#faecd7";
             return false;
           }
         }
