@@ -238,7 +238,12 @@
       for (const input of inputs) {
         if (input.required) {
           const value = input.value.trim();
-          if (!value) return false;
+          if (!value) {
+            document.getElementById(
+              input.name + "label"
+            ).style.backgroundColor = "green";
+            return false;
+          }
 
           if (input.name === "fcelular" && !isValidPhone(value)) {
             return false;
