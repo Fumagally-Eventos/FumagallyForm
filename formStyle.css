@@ -30,6 +30,25 @@ img {
   animation: imgAnimation 1.5s ease-in-out;
 }
 
+.maincontent {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.container {
+  width: 100% !important;
+}
+
+.intro-text > center > div {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.intro-text > center > div > img {
+  margin: unset !important;
+}
+
 .container {
   padding-top: 15vh;
 }
