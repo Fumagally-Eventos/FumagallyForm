@@ -20,7 +20,14 @@ header {
   position: absolute;
   z-index: 2;
   width: 100%;
+  display: flex;
+  align-items: center;
   animation: initialAnimation 1.5s ease-in forwards;
+}
+
+img {
+  width: 250px;
+  animation: imgAnimation 1.5s ease-in-out;
 }
 
 .container {
@@ -187,6 +194,18 @@ button[disabled] {
   }
   .form-section {
     min-width: unset;
+  }
+}
+
+@keyframes imgAnimation {
+  0% {
+    width: 250px;
+  }
+  75% {
+    width: 250px;
+  }
+  100% {
+    width: 180px;
   }
 }
 
