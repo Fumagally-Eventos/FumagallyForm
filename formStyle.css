@@ -196,8 +196,6 @@ button[disabled] {
 }
 
 div.panel-heading {
-  visibility: hidden;
-  height: 0px;
   animation: wwws 1.5s ease-in-out;
 }
 
