@@ -19,6 +19,7 @@ body {
 header {
   display: flex;
   align-items: center;
+  height: 100vh;
   animation: initialAnimation 1.5s ease-in-out;
 }
 
