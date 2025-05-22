@@ -240,6 +240,7 @@
           "#dfd7fa";
         if (input.required) {
           const value = input.value.trim();
+          console.log(input.name, value);
           if (!value) {
             if (
               input.name === "fhora" ||
