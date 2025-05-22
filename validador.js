@@ -230,6 +230,10 @@
 
     function validateSection(section) {
       const inputs = section.querySelectorAll("input, select, textarea");
+      const fobs2 = document.querySelectorAll('input[name="fobs2"]');
+      const fobs3 = document.querySelectorAll('input[name="fobs3"]');
+      const checkboxes = document.querySelectorAll('input[name="opcao"]');
+
       for (const input of inputs) {
         if (input.required) {
           const value = input.value.trim();
@@ -240,6 +244,29 @@
           }
 
           if (input.type === "email" && !isValidEmail(value)) {
+            return false;
+          }
+        }
+        if (Array.from(checkboxes).length > 0) {
+          const peloMenosUmMarcado = Array.from(checkboxes).some(
+            (cb) => cb.checked
+          );
+
+          if (!peloMenosUmMarcado) {
+            return false;
+          }
+        }
+        if (Array.from(fobs2).length > 0) {
+          const peloMenosUmMarcado = Array.from(fobs2).some((cb) => cb.checked);
+
+          if (!peloMenosUmMarcado) {
+            return false;
+          }
+        }
+        if (Array.from(fobs3).length > 0) {
+          const peloMenosUmMarcado = Array.from(fobs3).some((cb) => cb.checked);
+
+          if (!peloMenosUmMarcado) {
             return false;
           }
         }
@@ -389,23 +416,6 @@
         form.submit();
       });
       submitButton.style.display = "none";
-
-      document
-        .getElementById("formdoc")
-        .addEventListener("submit", function (event) {
-          const checkboxes = document.querySelectorAll('input[name="opcao"]');
-          const peloMenosUmMarcado = Array.from(checkboxes).some(
-            (cb) => cb.checked
-          );
-
-          if (!peloMenosUmMarcado) {
-            event.preventDefault();
-            alert(
-              "Você precisa marcar ao menos um dos itens na lista, e selecionar a quantidade desejada."
-            );
-            return false;
-          }
-        });
     }
   })();
 })();
