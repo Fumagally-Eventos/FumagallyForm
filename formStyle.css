@@ -196,20 +196,23 @@ button[disabled] {
 }
 
 div.panel-heading {
-  display: none;
-  animation: wwws 1.5s ease-in-out forwards;
+  visibility: hidden;
+  height: 0px;
+  animation: wwws 1.5s ease-in-out;
 }
 
 @keyframes wwws {
   0% {
-    display: none;
+    visibility: hidden;
+    height: 0px;
   }
   99% {
-    display: none;
+    visibility: hidden;
+    height: 0px;
   }
   100% {
-    background: green;
-    display: block;
+    visibility: visible;
+    height: 100%;
   }
 }
 
