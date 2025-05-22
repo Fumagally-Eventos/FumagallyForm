@@ -403,6 +403,7 @@
             alert(
               "Você precisa marcar ao menos um dos itens na lista, e selecionar a quantidade desejada."
             );
+            return false;
           }
         });
     }
