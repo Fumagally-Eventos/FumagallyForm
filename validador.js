@@ -256,8 +256,6 @@
             .getElementById(input.name + "label")
             .getElementsByClassName("unfilled")[0].style.display = "none";
         }
-        // document.getElementById(input.name + "label").style.backgroundColor =
-        //   "#dfd7fa";
 
         if (input.required) {
           const value = input.value.trim();
@@ -294,10 +292,22 @@
           }
 
           if (input.name === "fcelular" && !isValidPhone(value)) {
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("filled")[0].style.display = "none";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("unfilled")[0].style.display = "block";
             return false;
           }
 
           if (input.type === "email" && !isValidEmail(value)) {
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("filled")[0].style.display = "none";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("unfilled")[0].style.display = "block";
             return false;
           }
         }
@@ -307,8 +317,12 @@
           );
 
           if (!peloMenosUmMarcado) {
-            document.getElementById("fdatalabel").style.backgroundColor =
-              "#faecd7";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("filled")[0].style.display = "none";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("unfilled")[0].style.display = "block";
             return false;
           }
         }
@@ -316,6 +330,12 @@
           const peloMenosUmMarcado = Array.from(fobs2).some((cb) => cb.checked);
 
           if (!peloMenosUmMarcado) {
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("filled")[0].style.display = "none";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("unfilled")[0].style.display = "block";
             return false;
           }
         }
@@ -323,6 +343,12 @@
           const peloMenosUmMarcado = Array.from(fobs3).some((cb) => cb.checked);
 
           if (!peloMenosUmMarcado) {
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("filled")[0].style.display = "none";
+            document
+              .getElementById(input.name + "label")
+              .getElementsByClassName("unfilled")[0].style.display = "block";
             return false;
           }
         }
