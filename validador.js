@@ -246,15 +246,19 @@
         ) {
           label = document.getElementById("fdatalabel");
           console.log(label, "aqui");
-          checkMark = label.querySelector("filled").style.display = "block";
-          exclamationMark = label.querySelector("unfilled").style.display =
-            "none";
+          checkMark = label.getElementsByClassName("filled")[0].style.display =
+            "block";
+          exclamationMark = label.getElementsByClassName(
+            "unfilled"
+          )[0].style.display = "none";
         } else {
           label = document.getElementById(input.name + "label");
           console.log(label, "aqui");
-          checkMark = label.querySelector("filled").style.display = "block";
-          exclamationMark = label.querySelector("unfilled").style.display =
-            "none";
+          checkMark = label.getElementsByClassName("filled")[0].style.display =
+            "block";
+          exclamationMark = label.getElementsByClassName(
+            "unfilled"
+          )[0].style.display = "none";
         }
         // document.getElementById(input.name + "label").style.backgroundColor =
         //   "#dfd7fa";
@@ -273,17 +277,21 @@
               const fdatafim = document.getElementsByName("fdatafim")[0].value;
               const fdata = document.getElementsByName("fdata")[0].value;
               if (!fhorafim || !fhora || !fdatafim || !fdata) {
-                checkMark = label.querySelector("filled").style.display =
-                  "none";
-                exclamationMark = label.querySelector(
+                checkMark = label.getElementsByClassName(
+                  "filled"
+                )[0].style.display = "none";
+                exclamationMark = label.getElementsByClassName(
                   "unfilled"
-                ).style.display = "block";
+                )[0].style.display = "block";
                 return false;
               }
             } else {
-              checkMark = label.querySelector("filled").style.display = "none";
-              exclamationMark = label.querySelector("unfilled").style.display =
-                "block";
+              checkMark = label.getElementsByClassName(
+                "filled"
+              )[0].style.display = "none";
+              exclamationMark = label.getElementsByClassName(
+                "unfilled"
+              )[0].style.display = "block";
               return false;
             }
           }
