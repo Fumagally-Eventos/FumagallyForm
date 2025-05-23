@@ -315,7 +315,12 @@
           const peloMenosUmMarcado = Array.from(checkboxes).some(
             (cb) => cb.checked
           );
-
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("filled")[0].style.display = "block";
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("unfilled")[0].style.display = "none";
           if (!peloMenosUmMarcado) {
             document
               .getElementById(input.name + "label")
@@ -328,7 +333,12 @@
         }
         if (Array.from(fobs2).length > 0) {
           const peloMenosUmMarcado = Array.from(fobs2).some((cb) => cb.checked);
-
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("filled")[0].style.display = "block";
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("unfilled")[0].style.display = "none";
           if (!peloMenosUmMarcado) {
             document
               .getElementById(input.name + "label")
@@ -341,7 +351,12 @@
         }
         if (Array.from(fobs3).length > 0) {
           const peloMenosUmMarcado = Array.from(fobs3).some((cb) => cb.checked);
-
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("filled")[0].style.display = "block";
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("unfilled")[0].style.display = "none";
           if (!peloMenosUmMarcado) {
             document
               .getElementById(input.name + "label")
