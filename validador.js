@@ -246,11 +246,13 @@
           input.name === "fdata"
         ) {
           label = document.getElementById("fdatalabel");
+          console.log(label);
           checkMark = label.querySelector("filled").style.display = "block";
           exclamationMark = label.querySelector("unfilled").style.display =
             "none";
         } else {
           label = document.getElementById(input.name + "label");
+          console.log(label);
           checkMark = label.querySelector("filled").style.display = "block";
           exclamationMark = label.querySelector("unfilled").style.display =
             "none";
