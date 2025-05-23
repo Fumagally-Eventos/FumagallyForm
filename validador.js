@@ -234,7 +234,7 @@
       const fobs2 = section.querySelectorAll('input[name="fobs2"]');
       const fobs3 = section.querySelectorAll('input[name="fobs3"]');
       const checkboxes = section.querySelectorAll('input[name="opcao"]');
-
+      console.log(inputs);
       for (const input of inputs) {
         if (
           input.name === "fhora" ||
@@ -249,7 +249,6 @@
             .getElementById("fdatalabel")
             .getElementsByClassName("unfilled")[0].style.display = "none";
         } else {
-          console.log(input.name);
           document
             .getElementById(input.name + "label")
             .getElementsByClassName("filled")[0].style.display = "block";
@@ -260,6 +259,7 @@
 
         if (input.required) {
           const value = input.value.trim();
+          console.log(value, input.name);
           if (!value) {
             if (
               input.name === "fhora" ||
