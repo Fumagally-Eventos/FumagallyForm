@@ -235,30 +235,25 @@
       const checkboxes = section.querySelectorAll('input[name="opcao"]');
 
       for (const input of inputs) {
-        let label = null;
-        let checkMark = null;
-        let exclamationMark = null;
         if (
           input.name === "fhora" ||
           input.name === "fhorafim" ||
           input.name === "fdatafim" ||
           input.name === "fdata"
         ) {
-          label = document.getElementById("fdatalabel");
-          console.log(label, "aqui");
-          checkMark = label.getElementsByClassName("filled")[0].style.display =
-            "block";
-          exclamationMark = label.getElementsByClassName(
-            "unfilled"
-          )[0].style.display = "none";
+          document
+            .getElementById("fdatalabel")
+            .getElementsByClassName("filled")[0].style.display = "block";
+          document
+            .getElementById("fdatalabel")
+            .getElementsByClassName("unfilled")[0].style.display = "none";
         } else {
-          label = document.getElementById(input.name + "label");
-          console.log(label, "aqui");
-          checkMark = label.getElementsByClassName("filled")[0].style.display =
-            "block";
-          exclamationMark = label.getElementsByClassName(
-            "unfilled"
-          )[0].style.display = "none";
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("filled")[0].style.display = "block";
+          document
+            .getElementById(input.name + "label")
+            .getElementsByClassName("unfilled")[0].style.display = "none";
         }
         // document.getElementById(input.name + "label").style.backgroundColor =
         //   "#dfd7fa";
@@ -277,21 +272,22 @@
               const fdatafim = document.getElementsByName("fdatafim")[0].value;
               const fdata = document.getElementsByName("fdata")[0].value;
               if (!fhorafim || !fhora || !fdatafim || !fdata) {
-                checkMark = label.getElementsByClassName(
-                  "filled"
-                )[0].style.display = "none";
-                exclamationMark = label.getElementsByClassName(
-                  "unfilled"
-                )[0].style.display = "block";
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("filled")[0].style.display = "none";
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("unfilled")[0].style.display =
+                  "block";
                 return false;
               }
             } else {
-              checkMark = label.getElementsByClassName(
-                "filled"
-              )[0].style.display = "none";
-              exclamationMark = label.getElementsByClassName(
-                "unfilled"
-              )[0].style.display = "block";
+              document
+                .getElementById(input.name + "label")
+                .getElementsByClassName("filled")[0].style.display = "none";
+              document
+                .getElementById(input.name + "label")
+                .getElementsByClassName("unfilled")[0].style.display = "block";
               return false;
             }
           }
