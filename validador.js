@@ -236,11 +236,30 @@
 
       for (const input of inputs) {
         console.log(input);
-        document.getElementById(input.name + "label").style.backgroundColor =
-          "#dfd7fa";
+        let label = null;
+        let checkMark = null;
+        let exclamationMark = null;
+        if (
+          input.name === "fhora" ||
+          input.name === "fhorafim" ||
+          input.name === "fdatafim" ||
+          input.name === "fdata"
+        ) {
+          label = document.getElementById("fdatalabel");
+          checkMark = label.querySelector("filled").style.display = "block";
+          exclamationMark = label.querySelector("unfilled").style.display =
+            "none";
+        } else {
+          label = document.getElementById(input.name + "label");
+          checkMark = label.querySelector("filled").style.display = "block";
+          exclamationMark = label.querySelector("unfilled").style.display =
+            "none";
+        }
+        // document.getElementById(input.name + "label").style.backgroundColor =
+        //   "#dfd7fa";
+
         if (input.required) {
           const value = input.value.trim();
-          console.log(input.name, value);
           if (!value) {
             if (
               input.name === "fhora" ||
@@ -253,14 +272,17 @@
               const fdatafim = document.getElementsByName("fdatafim")[0].value;
               const fdata = document.getElementsByName("fdata")[0].value;
               if (!fhorafim || !fhora || !fdatafim || !fdata) {
-                document.getElementById("fdatalabel").style.backgroundColor =
-                  "#faecd7";
+                checkMark = label.querySelector("filled").style.display =
+                  "none";
+                exclamationMark = label.querySelector(
+                  "unfilled"
+                ).style.display = "block";
                 return false;
               }
             } else {
-              document.getElementById(
-                input.name + "label"
-              ).style.backgroundColor = "#faecd7";
+              checkMark = label.querySelector("filled").style.display = "none";
+              exclamationMark = label.querySelector("unfilled").style.display =
+                "block";
               return false;
             }
           }
