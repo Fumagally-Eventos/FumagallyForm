@@ -39,8 +39,9 @@
     const group = document.createElement("div");
     group.className = "form-group";
     group.innerHTML = `
-      <label id="fdatalabel">Data do Evento* 
-        <span class="tooltip-icon" data-tooltip="Escolha uma ou mais datas para o evento (não inclua as datas de montagem/desmontagem caso estas sejam no dia posterior/anterior)">?</span>
+      <label id="fdatalabel"><div>Data do Evento* 
+        <span class="tooltip-icon" data-tooltip="Escolha uma ou mais datas para o evento (não inclua as datas de montagem/desmontagem caso estas sejam no dia posterior/anterior)">?</span></div>
+        <span class="filled">&#10004;</span><span class="unfilled">&#10071;</span>
       </label>
       <div class="dates-wrapper">
       <div class="form-inline">
