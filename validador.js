@@ -235,7 +235,6 @@
       const checkboxes = section.querySelectorAll('input[name="opcao"]');
 
       for (const input of inputs) {
-        console.log(input);
         let label = null;
         let checkMark = null;
         let exclamationMark = null;
@@ -246,13 +245,13 @@
           input.name === "fdata"
         ) {
           label = document.getElementById("fdatalabel");
-          console.log(label);
+          console.log(label, "aqui");
           checkMark = label.querySelector("filled").style.display = "block";
           exclamationMark = label.querySelector("unfilled").style.display =
             "none";
         } else {
           label = document.getElementById(input.name + "label");
-          console.log(label);
+          console.log(label, "aqui");
           checkMark = label.querySelector("filled").style.display = "block";
           exclamationMark = label.querySelector("unfilled").style.display =
             "none";
