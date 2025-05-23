@@ -30,7 +30,7 @@ img {
   animation: imgAnimation 1.5s ease-in-out;
 }
 
-label {
+label:not(:has(input)) {
   display: flex;
   justify-content: space-between;
 }
