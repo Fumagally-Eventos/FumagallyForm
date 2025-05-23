@@ -249,6 +249,7 @@
             .getElementById("fdatalabel")
             .getElementsByClassName("unfilled")[0].style.display = "none";
         } else {
+          console.log(input.name);
           document
             .getElementById(input.name + "label")
             .getElementsByClassName("filled")[0].style.display = "block";
