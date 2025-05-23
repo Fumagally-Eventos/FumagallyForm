@@ -30,6 +30,11 @@ img {
   animation: imgAnimation 1.5s ease-in-out;
 }
 
+label {
+  display: flex;
+  justify-content: space-between;
+}
+
 .maincontent {
   display: flex !important;
   justify-content: center !important;
