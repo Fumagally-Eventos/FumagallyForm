@@ -291,6 +291,43 @@
               return false;
             }
           }
+          if (value) {
+            if (
+              input.name === "fhora" ||
+              input.name === "fhorafim" ||
+              input.name === "fdatafim" ||
+              input.name === "fdata"
+            ) {
+              const fhorafim = document.getElementsByName("fhorafim")[0].value;
+              const fhora = document.getElementsByName("fhora")[0].value;
+              const fdatafim = document.getElementsByName("fdatafim")[0].value;
+              const fdata = document.getElementsByName("fdata")[0].value;
+              if (!fhorafim || !fhora || !fdatafim || !fdata) {
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("filled")[0].style.display = "none";
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("unfilled")[0].style.display =
+                  "block";
+                return false;
+              } else {
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("filled")[0].style.display = "block";
+                document
+                  .getElementById("fdatalabel")
+                  .getElementsByClassName("unfilled")[0].style.display = "none";
+              }
+            } else {
+              document
+                .getElementById(input.name + "label")
+                .getElementsByClassName("filled")[0].style.display = "block";
+              document
+                .getElementById(input.name + "label")
+                .getElementsByClassName("unfilled")[0].style.display = "none";
+            }
+          }
 
           if (input.name === "fcelular" && !isValidPhone(value)) {
             document
