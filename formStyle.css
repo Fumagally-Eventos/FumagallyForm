@@ -35,6 +35,14 @@ label {
   justify-content: space-between;
 }
 
+.filled {
+  display: none;
+}
+
+.unfilled {
+  display: none;
+}
+
 .maincontent {
   display: flex !important;
   justify-content: center !important;
