@@ -505,7 +505,6 @@
         // --- FORMATAÇÃO DE FOBS ---
         const fobsParts = [];
 
-        const fobs1 = formData.get("fobs1") || "";
         const fobs2 = formData.get("fobs2") || "";
         const fobs3 = formData.get("fobs3") || "";
         const qtd2x2 = formData.get("fobs4qtd2x2") || "";
@@ -518,7 +517,7 @@
         if (qtd2x2.trim() !== "") fobs4.push(`2x2: ${qtd2x2}`);
         if (qtd1x1.trim() !== "") fobs4.push(`1.5x1.5: ${qtd1x1}`);
 
-        fobsParts.push(fobs1, fobs2, fobs3);
+        fobsParts.push(fobs2, fobs3);
         if (fobs4.length > 0) fobsParts.push(fobs4.join(" "));
         fobsParts.push(fobs5, fobs6, fobs7);
 
@@ -527,7 +526,6 @@
         // Remove campos antigos de fobs
         [
           "fobs",
-          "fobs1",
           "fobs2",
           "fobs3",
           "fobs4qtd2x2",
