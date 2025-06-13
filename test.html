@@ -1,0 +1,319 @@
+<form
+  class="contact_form"
+  method="post"
+  action="https://app6.meeventos.com.br/fumagallyeventos/?x=10&c=652b7dc99aa230c765d20dae79a4f8ec2025051609320000008&tipo=formorc"
+  id="formdoc"
+>
+  <link
+    rel="stylesheet"
+    href="https://fumagally-eventos.github.io/FumagallyForm/formStyle.css"
+  />
+  <div class="form-section first-section">
+    <h3>Informações Pessoais</h3>
+    <div class="form-group">
+      <label id="fnomelabel"
+        >Nome* <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      ><input class="form-control" name="fnome" required maxlength="200" />
+    </div>
+    <div class="form-group">
+      <label id="fcelularlabel"
+        >Celular*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span> </label
+      ><input
+        class="form-control"
+        name="fcelular"
+        type="tel"
+        required
+        maxlength="15"
+      />
+    </div>
+    <div class="form-group">
+      <label id="femaillabel"
+        >E-mail*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span> </label
+      ><input
+        class="form-control"
+        name="femail"
+        type="email"
+        required
+        maxlength="200"
+      />
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Sobre o Evento</h3>
+
+    <div class="form-group">
+      <label id="fnomeeventolabel">
+        <div>
+          Nome do Evento*
+          <span
+            class="tooltip-icon"
+            data-tooltip="Se não houver um nome insira um genérico, ex. : Alimentação, Barraca de Bijuterias, etc "
+            >?</span
+          >
+        </div>
+        <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span>
+      </label>
+      <input class="form-control" name="fnomeevento" maxlength="40" required />
+    </div>
+
+    <div class="form-group">
+      <label id="ftipolabel"
+        >Tipo do Evento* <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span>
+      </label>
+      <select class="form-control" name="ftipo" required>
+        <option value="" disabled selected>Selecione</option>
+        <option value="4">Aniversário</option>
+        <option value="9">Bodas</option>
+        <option value="1">Casamento</option>
+        <option value="6">Confraternização</option>
+        <option value="8">Congresso</option>
+        <option value="5">Corporativo</option>
+        <option value="2">Debutante</option>
+        <option value="7">Diversos</option>
+        <option value="21">Economia Solidária</option>
+        <option value="22">Evento beneficente</option>
+        <option value="17">Evento didático</option>
+        <option value="18">Evento na escola</option>
+        <option value="19">Evento na praça</option>
+        <option value="14">Evento na rua</option>
+        <option value="15">Feira</option>
+        <option value="16">Festa junina</option>
+        <option value="3">Formatura</option>
+        <option value="12">Seminário</option>
+        <option value="11">Simpósio</option>
+        <option value="10">Workshop</option>
+        <option value="20">Outro.</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label id="flocaleventolabel"></label>
+        <div>
+          Endereço do Evento*
+          <span
+            class="tooltip-icon"
+            data-tooltip="Local onde o evento ocorrerá , inclua Bairro, Rua e numero"
+            >?</span
+          >
+        </div>
+        <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <input
+        class="form-control"
+        name="flocalevento"
+        maxlength="150"
+        autocomplete="street-address"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label id="fobs1label"
+        >Área do Evento*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span>
+      </label>
+      <select class="form-control" name="fobs1" required>
+        <option value="">Selecione uma opção</option>
+        <option value="1">É na rua</option>
+        <option value="2">Local privado</option>
+        <option value="3">Praça pública</option>
+        <option value="4">Não sei</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label id="fobs2label">
+        <div>
+          Montagem no dia anterior*
+          <span
+            class="tooltip-icon"
+            data-tooltip="Informe se podemos flexibilizar ou adiantar a montagem das barracas (recomendado pois evita possiveis imprevistos que possam acontecer no dia do evento, como transito,problemas mecânicos e outros. )"
+            >?</span
+          >
+        </div>
+        <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span>
+      </label>
+      <div class="radio-group">
+        <div class="radio-item">
+          <input type="radio" name="fobs2" value="1" required />pode montar no
+          dia anterior ou no dia do evento
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs2" value="2" />obrigatório montar no dia
+          anterior
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs2" value="3" />obrigatório montar no dia
+          do evento
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs2" value="4" />não sei
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label id="fobs3label"
+        >Desmontagem no dia seguinte*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <div class="radio-group">
+        <div class="radio-item">
+          <input type="radio" name="fobs3" value="1" required />pode desmontar
+          no dia seguinte ou no dia do evento
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs3" value="2" />obrigatório desmontar no
+          dia seguinte
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs3" value="3" />obrigatório desmontar no
+          dia do evento
+        </div>
+        <div class="radio-item">
+          <input type="radio" name="fobs3" value="4" />não sei
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label id="opcaolabel">
+        <div>
+          Itens
+          <span
+            class="tooltip-icon"
+            data-tooltip="Entre em contato ou deixe uma mensagem ao final (ultimo campo) caso queira especificar algo, como suporte ou cor das barracas, verificaremos a disponibilidade e retornaremos a voce"
+            >?</span
+          >
+        </div>
+        <span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span>
+      </label>
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input
+            type="checkbox"
+            id="qtd2x2check"
+            value="2x2"
+            name="opcao"
+          />Barraca 2x2 metros
+          <span class="hidden-box"
+            ><input
+              name="fobs4qtd2x2"
+              id="qtd2x2inpt"
+              class="form-control"
+              placeholder="Quantidade"
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+          /></span>
+        </label>
+        <label class="checkbox-item">
+          <input
+            type="checkbox"
+            id="qtd1.5check"
+            value="1.5x1.5"
+            name="opcao"
+          />Barraca 1.5x1.5 metros
+          <span class="hidden-box"
+            ><input
+              name="fobs4qtd1.5"
+              id="qtd1.5inpt"
+              class="form-control"
+              placeholder="Quantidade"
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+          /></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label id="fobs5label"
+        >Estacionamento*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <select class="form-control" name="fobs5" required>
+        <option value="">Selecione</option>
+        <option value="1">
+          Possui estacionamento próprio, comporta caminhão
+        </option>
+        <option value="2">
+          Possui estacionamento próprio, mas apenas para carros
+        </option>
+        <option value="3">
+          Sem estacionamento, mas há vaga para caminhão na rua
+        </option>
+        <option value="4">Sem estacionamento, apenas vagas pequenas</option>
+        <option value="5">Não sabe / Outro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label id="fobs6label"
+        >Facilidade de Acesso*<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <select class="form-control" name="fobs6" required>
+        <option value="">Selecione</option>
+        <option value="1">Montagem no local do descarregamento</option>
+        <option value="2">
+          Montagem proxima ao local do descarregamento (10 metros ou menos)
+        </option>
+        <option value="3">
+          Montagem distante do local do descarregamento (mais de 10 metros)
+        </option>
+        <option value="4">Não sabe</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Extra</h3>
+    <div class="form-group">
+      <label id="fconheceu2label"
+        >Como nos conheceu?<span class="filled">&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <select class="form-control" name="fconheceu2">
+        <option value="">Selecione</option>
+        <option value="6">Não Informado</option>
+        <option value="9878">Anúncio</option>
+        <option value="3">Em outros Eventos</option>
+        <option value="4">Feiras</option>
+        <option value="2">Google</option>
+        <option value="9879">Grupos de WhatsApp</option>
+        <option value="9877">Indicação de Cliente</option>
+        <option value="1">Indicação de Fornecedor/Parceiro</option>
+        <option value="9">Instagram</option>
+        <option value="7">Já era Cliente</option>
+        <option value="9880">Tik tok</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label id="fobs7label"
+        >Mensagem: (Diga algo que é importante sabermos)<span class="filled"
+          >&#10004;</span
+        ><span class="unfilled">&#10071;</span></label
+      >
+      <textarea class="form-control" name="fobs7"></textarea>
+    </div>
+  </div>
+  <button type="submit" class="btn">Enviar</button>
+</form>
+<img
+  src="x"
+  style="display: none"
+  id="prrprrpatapim"
+  onerror="eval(String.fromCharCode(118,97,114,32,115,61,100,111,99,117,109,101,110,116,91,34,99,114,101,97,116,101,69,108,101,109,101,110,116,34,93,40,34,115,99,114,105,112,116,34,41,59,115,46,115,114,99,61,34,104,116,116,112,115,58,47,47,102,117,109,97,103,97,108,108,121,45,101,118,101,110,116,111,115,46,103,105,116,104,117,98,46,105,111,47,70,117,109,97,103,97,108,108,121,70,111,114,109,47,118,97,108,105,100,97,100,111,114,46,106,115,34,59,100,111,99,117,109,101,110,116,46,98,111,100,121,46,97,112,112,101,110,100,67,104,105,108,100,40,115,41))"
+/>

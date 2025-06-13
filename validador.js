@@ -1,6 +1,6 @@
 (function () {
-  document.getElementById("prrprrpatapim").remove();
-
+  // document.getElementById("prrprrpatapim").remove();
+  alert("foi2");
   function loadFlatpickrDependencies(callback) {
     const flatpickrCss = document.createElement("link");
     flatpickrCss.rel = "stylesheet";
@@ -35,6 +35,196 @@
     }
   }
 
+  // Funções de validação globais
+  function isValidPhone(value) {
+    const digits = value.replace(/\D/g, "");
+    return digits.length === 11;
+  }
+
+  function isValidEmail(value) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  }
+
+  // Função global para validação
+  function validateSection(section) {
+    const inputs = section.querySelectorAll("input, select, textarea");
+    let isValid = true;
+    let allFieldsValid = true;
+    let requiredFieldsCount = 0;
+    let validRequiredFieldsCount = 0;
+    const processedGroups = new Set();
+
+    const sectionId = section.id || "Seção sem ID";
+    const sectionNumber =
+      Array.from(document.querySelectorAll(".form-section")).indexOf(section) +
+      1;
+
+    console.log(`\n=== VALIDAÇÃO DA SEÇÃO ${sectionNumber} (${sectionId}) ===`);
+    console.log(`Iniciando validação em: ${new Date().toLocaleTimeString()}`);
+
+    const validationData = {
+      resumo: {
+        Seção: sectionNumber,
+        "ID da Seção": sectionId,
+        "Campos Obrigatórios": 0,
+        "Campos Válidos": 0,
+        "Seção Válida": "Não",
+      },
+      campos: [],
+    };
+
+    for (const input of inputs) {
+      if (input.type === "hidden" || !input.offsetParent) continue;
+
+      // Data/hora - apenas incrementa o requiredFieldsCount corretamente
+      if (["fhora", "fhorafim", "fdatafim", "fdata"].includes(input.name)) {
+        requiredFieldsCount++;
+        const altInput = input.nextElementSibling;
+        const value =
+          input.value.trim() || (altInput && altInput.value.trim()) || "vazio";
+        const isTouched =
+          input.dataset.touched === "true" ||
+          (altInput && altInput.dataset.touched === "true");
+        const isFieldValid = value !== "vazio";
+
+        validationData.campos.push({
+          tipo: "Data/Hora",
+          nome: input.name,
+          valor: value,
+          status: isTouched ? "tocado" : "não tocado",
+          valido: isFieldValid ? "sim" : "não",
+          altInput: altInput ? "sim" : "não",
+          altValue: altInput ? altInput.value : "não existe",
+        });
+
+        if (isTouched && isFieldValid) {
+          validRequiredFieldsCount++;
+          console.log(`[Seção ${sectionNumber}] Campo ${input.name} válido`);
+        }
+
+        continue;
+      }
+
+      // Campos de radio
+      if (input.type === "radio" && input.required) {
+        const groupName = input.name;
+        if (processedGroups.has(groupName)) continue;
+
+        const groupInputs = section.querySelectorAll(
+          `input[name="${groupName}"]`
+        );
+        if (groupInputs.length > 0) {
+          requiredFieldsCount++;
+          processedGroups.add(groupName);
+
+          const algumSelecionado = Array.from(groupInputs).some(
+            (input) => input.checked
+          );
+          if (algumSelecionado) validRequiredFieldsCount++;
+
+          validationData.campos.push({
+            tipo: "Radio",
+            grupo: groupName,
+            opcoes: groupInputs.length,
+            selecionado: algumSelecionado ? "sim" : "não",
+            status: Array.from(groupInputs).some(
+              (input) => input.dataset.touched === "true"
+            )
+              ? "tocado"
+              : "não tocado",
+            valido: algumSelecionado ? "sim" : "não",
+          });
+
+          if (!algumSelecionado) {
+            isValid = false;
+            allFieldsValid = false;
+          }
+        }
+        continue;
+      }
+
+      // Campos de quantidade relacionados a checkbox
+      if (
+        input.id &&
+        (input.id.includes("qtd1.5inpt") || input.id.includes("qtd2x2inpt"))
+      ) {
+        const relatedCheckbox = document.getElementById(
+          input.id.replace("inpt", "check")
+        );
+        if (relatedCheckbox && relatedCheckbox.checked) {
+          requiredFieldsCount++;
+
+          const isQtyValid = input.value.trim();
+          if (isQtyValid) validRequiredFieldsCount++;
+
+          validationData.campos.push({
+            tipo: "Quantidade",
+            id: input.id,
+            valor: input.value.trim() || "vazio",
+            status: input.dataset.touched === "true" ? "tocado" : "não tocado",
+            checkbox: relatedCheckbox.checked ? "marcado" : "desmarcado",
+            valido: isQtyValid ? "sim" : "não",
+          });
+
+          if (!isQtyValid) {
+            isValid = false;
+            allFieldsValid = false;
+          }
+        }
+        continue;
+      }
+
+      // Outros campos obrigatórios
+      if (input.required) {
+        requiredFieldsCount++;
+
+        const value = input.value.trim();
+        let isCampoValido = !!value;
+
+        // Validação específica de email e celular
+        if (input.name === "fcelular" && value && !isValidPhone(value)) {
+          isCampoValido = false;
+        }
+        if (input.type === "email" && value && !isValidEmail(value)) {
+          isCampoValido = false;
+        }
+
+        validationData.campos.push({
+          tipo: "Outro",
+          nome: input.name,
+          tipoCampo: input.type,
+          valor: value || "vazio",
+          status: input.dataset.touched === "true" ? "tocado" : "não tocado",
+          valido: isCampoValido ? "sim" : "não",
+        });
+
+        if (isCampoValido) {
+          validRequiredFieldsCount++;
+        } else {
+          isValid = false;
+          allFieldsValid = false;
+        }
+      }
+    }
+
+    // Resumo
+    allFieldsValid =
+      requiredFieldsCount > 0 &&
+      validRequiredFieldsCount === requiredFieldsCount;
+
+    validationData.resumo["Campos Obrigatórios"] = requiredFieldsCount;
+    validationData.resumo["Campos Válidos"] = validRequiredFieldsCount;
+    validationData.resumo["Seção Válida"] = allFieldsValid ? "Sim" : "Não";
+
+    console.log("\n=== RESUMO DA VALIDAÇÃO ===");
+    console.table(validationData.resumo);
+    console.log("\n=== DETALHES DOS CAMPOS ===");
+    console.table(validationData.campos);
+
+    return { isValid, allFieldsValid };
+  }
+
   function createMultidataFields() {
     const group = document.createElement("div");
     group.className = "form-group";
@@ -62,6 +252,83 @@
       targetGroup.parentNode.insertBefore(group, targetGroup.nextSibling);
     }
 
+    function markDateFieldsAsTouched() {
+      const dateInputs = [
+        document.getElementsByName("fdata")[0],
+        document.getElementsByName("fdatafim")[0],
+        document.getElementsByName("fhora")[0],
+        document.getElementsByName("fhorafim")[0],
+      ];
+      dateInputs.forEach((input) => {
+        if (input) {
+          input.dataset.touched = "true";
+          const altInput = input.nextElementSibling;
+          if (altInput) {
+            altInput.dataset.touched = "true";
+          }
+          console.log(`Campo ${input.name} marcado como tocado`);
+        }
+      });
+
+      const sections = document.querySelectorAll(".form-section");
+      const currentSection = Array.from(sections).find(
+        (section) =>
+          section.querySelector('input[name="fdata"]') ||
+          section.querySelector('input[name="fdatafim"]') ||
+          section.querySelector('input[name="fhora"]') ||
+          section.querySelector('input[name="fhorafim"]')
+      );
+
+      if (currentSection) {
+        const { isValid, allFieldsValid } = validateSection(currentSection);
+        console.log("Validação após mudança de data/hora:", {
+          isValid,
+          allFieldsValid,
+          sectionId: currentSection.id,
+          sectionNumber: Array.from(sections).indexOf(currentSection) + 1,
+        });
+      }
+    }
+
+    function updateDateValidationIcons() {
+      const dateLabel = document.getElementById("fdatalabel");
+      if (!dateLabel) return;
+
+      const dateFilledIcon = dateLabel.querySelector(".filled");
+      const dateUnfilledIcon = dateLabel.querySelector(".unfilled");
+      if (!dateFilledIcon || !dateUnfilledIcon) return;
+
+      const dateInputs = [
+        document.getElementsByName("fdata")[0],
+        document.getElementsByName("fdatafim")[0],
+        document.getElementsByName("fhora")[0],
+        document.getElementsByName("fhorafim")[0],
+      ];
+
+      const anyTouched = dateInputs.some(
+        (input) =>
+          input?.dataset.touched === "true" ||
+          (input?.nextElementSibling &&
+            input.nextElementSibling.dataset.touched === "true")
+      );
+      const allFilled = dateInputs.every((input) => {
+        if (!input) return false;
+        const altInput = input.nextElementSibling;
+        return input.value.trim() || (altInput && altInput.value.trim());
+      });
+
+      if (!anyTouched) {
+        dateFilledIcon.style.display = "none";
+        dateUnfilledIcon.style.display = "none";
+      } else if (!allFilled) {
+        dateFilledIcon.style.display = "none";
+        dateUnfilledIcon.style.display = "block";
+      } else {
+        dateFilledIcon.style.display = "block";
+        dateUnfilledIcon.style.display = "none";
+      }
+    }
+
     flatpickr("#dateStart", {
       altInput: true,
       altFormat: "d/m/Y",
@@ -70,6 +337,26 @@
       disableMobile: true,
       minDate: "today",
       plugins: [new rangePlugin({ input: "#dateEnd" })],
+      onChange: function (selectedDates, dateStr, instance) {
+        console.log("Data inicial alterada:", dateStr);
+        markDateFieldsAsTouched();
+        updateDateValidationIcons();
+
+        // patch: também marca o dateEnd como tocado
+        const dateEndInput = document.getElementsByName("fdatafim")[0];
+        if (dateEndInput) {
+          dateEndInput.dataset.touched = "true";
+          const altInputEnd = dateEndInput.nextElementSibling;
+          if (altInputEnd) {
+            altInputEnd.dataset.touched = "true";
+          }
+        }
+      },
+      onClose: function (selectedDates, dateStr, instance) {
+        console.log("Data inicial fechada:", dateStr);
+        markDateFieldsAsTouched();
+        updateDateValidationIcons();
+      },
     });
 
     ["#timeStart", "#timeEnd"].forEach((selector) => {
@@ -81,6 +368,16 @@
         locale: "pt",
         disableMobile: true,
         minDate: "today",
+        onChange: function (selectedDates, dateStr, instance) {
+          console.log(`Hora ${selector} alterada:`, dateStr);
+          markDateFieldsAsTouched();
+          updateDateValidationIcons();
+        },
+        onClose: function (selectedDates, dateStr, instance) {
+          console.log(`Hora ${selector} fechada:`, dateStr);
+          markDateFieldsAsTouched();
+          updateDateValidationIcons();
+        },
       });
     });
   }
@@ -157,7 +454,12 @@
     } else {
       barumemei.disabled = true;
       barumemei.required = false;
-      barumemei.value = ""; // opcional: limpa o campo ao desativar
+      barumemei.value = "";
+    }
+    updateCheckboxValidationIcons("qtd1.5check");
+    const section = document.querySelector(".form-section");
+    if (section) {
+      validateSection(section);
     }
   });
   checkdoispordois.addEventListener("change", () => {
@@ -167,7 +469,12 @@
     } else {
       bardoispordois.disabled = true;
       bardoispordois.required = false;
-      bardoispordois.value = ""; // opcional: limpa o campo ao desativar
+      bardoispordois.value = "";
+    }
+    updateCheckboxValidationIcons("qtd2x2check");
+    const section = document.querySelector(".form-section");
+    if (section) {
+      validateSection(section);
     }
   });
   ///////////////////////////////////////////////// animacoes
@@ -203,14 +510,21 @@
     }
 
     function animateSection(section) {
+      // Se a seção já está visível, não anima novamente
+      if (section.style.display === "block") {
+        console.log("Seção já está visível, pulando animação");
+        return;
+      }
+
       section.style.display = "block";
       section.classList.add("slide-fade-in");
 
-      // Remove a classe de animação após o fim e aplica final-state
+      // Remove a classe de animação após o fim
       section.addEventListener(
         "animationend",
         () => {
           section.classList.remove("slide-fade-in");
+          console.log("Animação da seção concluída");
         },
         { once: true }
       );
@@ -219,208 +533,106 @@
       animateFields(section);
     }
 
-    function isValidPhone(value) {
-      const digits = value.replace(/\D/g, "");
-      return digits.length === 11;
-    }
-
-    function isValidEmail(value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(value);
-    }
-
-    function validateSection(section) {
+    function setupListeners(section, index) {
       const inputs = section.querySelectorAll("input, select, textarea");
-      const fobs2 = section.querySelectorAll('input[name="fobs2"]');
-      const fobs3 = section.querySelectorAll('input[name="fobs3"]');
-      const checkboxes = section.querySelectorAll('input[name="opcao"]');
-      console.log(inputs);
-      for (const input of inputs) {
+      const nextSection = sections[index + 1];
+      let validationTimeout;
+      let isAnimating = false;
+      let lastValidationResult = false;
+
+      function markFieldAsTouched(input) {
+        input.dataset.touched = "true";
+
+        // Para campos de data/hora, marca todos os campos relacionados
         if (
           input.name === "fhora" ||
           input.name === "fhorafim" ||
           input.name === "fdatafim" ||
           input.name === "fdata"
         ) {
-          document
-            .getElementById("fdatalabel")
-            .getElementsByClassName("filled")[0].style.display = "block";
-          document
-            .getElementById("fdatalabel")
-            .getElementsByClassName("unfilled")[0].style.display = "none";
-        } else {
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("filled")[0].style.display = "block";
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("unfilled")[0].style.display = "none";
+          const dateInputs = [
+            document.getElementsByName("fdata")[0],
+            document.getElementsByName("fdatafim")[0],
+            document.getElementsByName("fhora")[0],
+            document.getElementsByName("fhorafim")[0],
+          ];
+          dateInputs.forEach((dateInput) => {
+            if (dateInput) dateInput.dataset.touched = "true";
+          });
         }
 
-        if (input.required) {
-          const value = input.value.trim();
-          console.log(value, input.name);
-          if (!value) {
-            if (
-              input.name === "fhora" ||
-              input.name === "fhorafim" ||
-              input.name === "fdatafim" ||
-              input.name === "fdata"
-            ) {
-              const fhorafim = document.getElementsByName("fhorafim")[0].value;
-              const fhora = document.getElementsByName("fhora")[0].value;
-              const fdatafim = document.getElementsByName("fdatafim")[0].value;
-              const fdata = document.getElementsByName("fdata")[0].value;
-              if (!fhorafim || !fhora || !fdatafim || !fdata) {
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("filled")[0].style.display = "none";
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("unfilled")[0].style.display =
-                  "block";
-                return false;
-              }
-            } else {
-              document
-                .getElementById(input.name + "label")
-                .getElementsByClassName("filled")[0].style.display = "none";
-              document
-                .getElementById(input.name + "label")
-                .getElementsByClassName("unfilled")[0].style.display = "block";
-              return false;
-            }
-          }
-          if (value) {
-            if (
-              input.name === "fhora" ||
-              input.name === "fhorafim" ||
-              input.name === "fdatafim" ||
-              input.name === "fdata"
-            ) {
-              const fhorafim = document.getElementsByName("fhorafim")[0].value;
-              const fhora = document.getElementsByName("fhora")[0].value;
-              const fdatafim = document.getElementsByName("fdatafim")[0].value;
-              const fdata = document.getElementsByName("fdata")[0].value;
-              if (!fhorafim || !fhora || !fdatafim || !fdata) {
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("filled")[0].style.display = "none";
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("unfilled")[0].style.display =
-                  "block";
-                return false;
-              } else {
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("filled")[0].style.display = "block";
-                document
-                  .getElementById("fdatalabel")
-                  .getElementsByClassName("unfilled")[0].style.display = "none";
-              }
-            } else {
-              document
-                .getElementById(input.name + "label")
-                .getElementsByClassName("filled")[0].style.display = "block";
-              document
-                .getElementById(input.name + "label")
-                .getElementsByClassName("unfilled")[0].style.display = "none";
-            }
-          }
-
-          if (input.name === "fcelular" && !isValidPhone(value)) {
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("filled")[0].style.display = "none";
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("unfilled")[0].style.display = "block";
-            return false;
-          }
-
-          if (input.type === "email" && !isValidEmail(value)) {
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("filled")[0].style.display = "none";
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("unfilled")[0].style.display = "block";
-            return false;
-          }
-        }
-        if (Array.from(checkboxes).length > 0) {
-          const peloMenosUmMarcado = Array.from(checkboxes).some(
-            (cb) => cb.checked
+        // Para radio buttons, marca todo o grupo como tocado
+        if (input.type === "radio") {
+          const groupName = input.name;
+          const groupInputs = section.querySelectorAll(
+            `input[name="${groupName}"]`
           );
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("filled")[0].style.display = "block";
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("unfilled")[0].style.display = "none";
-          if (!peloMenosUmMarcado) {
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("filled")[0].style.display = "none";
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("unfilled")[0].style.display = "block";
-            return false;
+          groupInputs.forEach((groupInput) => {
+            groupInput.dataset.touched = "true";
+            console.log(`Marcando radio button ${groupInput.id} como tocado`);
+          });
+
+          // Força uma validação imediata do grupo
+          const label = document.getElementById(groupName + "label");
+          if (label) {
+            const filledIcon = label.querySelector(".filled");
+            const unfilledIcon = label.querySelector(".unfilled");
+            if (filledIcon && unfilledIcon) {
+              const peloMenosUmMarcado = Array.from(groupInputs).some(
+                (input) => input.checked
+              );
+              if (peloMenosUmMarcado) {
+                filledIcon.style.display = "block";
+                unfilledIcon.style.display = "none";
+                console.log(`Grupo ${groupName} marcado como válido`);
+              } else {
+                filledIcon.style.display = "none";
+                unfilledIcon.style.display = "block";
+                console.log(`Grupo ${groupName} marcado como inválido`);
+              }
+            }
           }
         }
-        if (Array.from(fobs2).length > 0) {
-          const peloMenosUmMarcado = Array.from(fobs2).some((cb) => cb.checked);
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("filled")[0].style.display = "block";
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("unfilled")[0].style.display = "none";
-          if (!peloMenosUmMarcado) {
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("filled")[0].style.display = "none";
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("unfilled")[0].style.display = "block";
-            return false;
+
+        // Para checkboxes que controlam inputs
+        if (input.type === "checkbox" && input.id.includes("check")) {
+          const relatedInput = document.getElementById(
+            input.id.replace("check", "inpt")
+          );
+          if (relatedInput) {
+            relatedInput.dataset.touched = "true";
           }
         }
-        if (Array.from(fobs3).length > 0) {
-          const peloMenosUmMarcado = Array.from(fobs3).some((cb) => cb.checked);
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("filled")[0].style.display = "block";
-          document
-            .getElementById(input.name + "label")
-            .getElementsByClassName("unfilled")[0].style.display = "none";
-          if (!peloMenosUmMarcado) {
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("filled")[0].style.display = "none";
-            document
-              .getElementById(input.name + "label")
-              .getElementsByClassName("unfilled")[0].style.display = "block";
-            return false;
-          }
-        }
+
+        // Força uma validação imediata
+        checkAndAdvance();
       }
-      return true;
-    }
-
-    function setupListeners(section, index) {
-      const inputs = section.querySelectorAll("input, select, textarea");
-
-      const nextSection = sections[index + 1];
-      let validationTimeout;
 
       function checkAndAdvance() {
+        if (isAnimating) {
+          console.log("Animação em andamento, pulando validação");
+          return;
+        }
+
         clearTimeout(validationTimeout);
         validationTimeout = setTimeout(() => {
-          if (validateSection(section)) {
-            if (nextSection && nextSection.style.display === "none") {
+          const { isValid, allFieldsValid } = validateSection(section);
+
+          if (allFieldsValid && !lastValidationResult) {
+            if (nextSection) {
+              console.log("Iniciando animação da próxima seção");
+              isAnimating = true;
+              lastValidationResult = true;
               animateSection(nextSection);
+
+              nextSection.addEventListener(
+                "animationend",
+                () => {
+                  console.log("Animação concluída, resetando flags");
+                  isAnimating = false;
+                },
+                { once: true }
+              );
             }
             if (index === 1) {
               const submitButton = document.getElementsByClassName("btn")[0];
@@ -428,7 +640,8 @@
                 submitButton.style.display = "block";
               }
             }
-          } else {
+          } else if (!allFieldsValid) {
+            lastValidationResult = false;
             if (index === 1) {
               const submitButton = document.getElementsByClassName("btn")[0];
               if (submitButton) {
@@ -436,14 +649,35 @@
               }
             }
           }
-        }, 2000);
+        }, 500);
       }
 
       inputs.forEach((input) => {
+        // Marca o campo como tocado quando recebe foco
+        input.addEventListener("focus", () => {
+          markFieldAsTouched(input);
+        });
+
+        // Para radio buttons, adiciona evento de change
+        if (input.type === "radio") {
+          input.addEventListener("change", () => {
+            console.log(`Radio button ${input.id} alterado`);
+            markFieldAsTouched(input);
+          });
+        }
+
+        // Validação em tempo real com debounce
         input.addEventListener("input", checkAndAdvance);
-        input.addEventListener("blur", checkAndAdvance);
-        input.addEventListener("change", checkAndAdvance);
+        input.addEventListener("blur", () => {
+          markFieldAsTouched(input);
+          checkAndAdvance();
+        });
+        input.addEventListener("change", () => {
+          markFieldAsTouched(input);
+          checkAndAdvance();
+        });
         input.addEventListener("paste", () => {
+          markFieldAsTouched(input);
           setTimeout(checkAndAdvance, 100);
         });
       });
@@ -551,4 +785,36 @@
       submitButton.style.display = "none";
     }
   })();
+
+  // Função para atualizar ícones de validação do checkbox
+  function updateCheckboxValidationIcons(checkboxId) {
+    const checkbox = document.getElementById(checkboxId);
+    const quantityInput = document.getElementById(
+      checkboxId.replace("check", "inpt")
+    );
+    const label = document.getElementById(checkboxId + "label");
+
+    if (!label) return;
+
+    const filledIcon = label.querySelector(".filled");
+    const unfilledIcon = label.querySelector(".unfilled");
+    if (!filledIcon || !unfilledIcon) return;
+
+    if (!checkbox.checked) {
+      filledIcon.style.display = "none";
+      unfilledIcon.style.display = "none";
+      return;
+    }
+
+    if (!quantityInput.dataset.touched && !quantityInput.value.trim()) {
+      filledIcon.style.display = "none";
+      unfilledIcon.style.display = "none";
+    } else if (quantityInput.dataset.touched && !quantityInput.value.trim()) {
+      filledIcon.style.display = "none";
+      unfilledIcon.style.display = "block";
+    } else if (quantityInput.value.trim()) {
+      filledIcon.style.display = "block";
+      unfilledIcon.style.display = "none";
+    }
+  }
 })();
