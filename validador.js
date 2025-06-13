@@ -76,7 +76,30 @@
 
     for (const input of inputs) {
       if (input.type === "hidden" || !input.offsetParent) continue;
+      // *** AQUI ENTRA A NOVA LÓGICA PARA SELECT ***
+      if (input.tagName === "SELECT" && input.required) {
+        requiredFieldsCount++;
 
+        const value = input.value.trim();
+        const isCampoValido = value !== "";
+
+        validationData.campos.push({
+          tipo: "Select",
+          nome: input.name,
+          valor: value || "vazio",
+          status: input.dataset.touched === "true" ? "tocado" : "não tocado",
+          valido: isCampoValido ? "sim" : "não",
+        });
+
+        if (isCampoValido) {
+          validRequiredFieldsCount++;
+        } else {
+          isValid = false;
+          allFieldsValid = false;
+        }
+
+        continue;
+      }
       // Data/hora - apenas incrementa o requiredFieldsCount corretamente
       if (["fhora", "fhorafim", "fdatafim", "fdata"].includes(input.name)) {
         requiredFieldsCount++;
@@ -246,6 +269,11 @@
         if (input) {
           label = document.getElementById(`${campo.nome}label`);
         }
+      } else if (campo.tipo === "Select") {
+        const input = section.querySelector(`[name="${campo.nome}"]`);
+        if (input) {
+          label = document.getElementById(`${campo.nome}label`);
+        }
       }
 
       if (label) {
@@ -253,7 +281,6 @@
         let unfilledIcon = label.querySelector(".unfilled");
 
         if (!filledIcon || !unfilledIcon) {
-          // Caso não existam ainda, cria os dois ícones
           filledIcon = document.createElement("span");
           filledIcon.className = "filled";
           filledIcon.textContent = "✔";
@@ -265,7 +292,6 @@
           label.appendChild(unfilledIcon);
         }
 
-        // Atualiza visibilidade com base na validação
         if (campo.status === "tocado") {
           if (campo.valido === "sim") {
             filledIcon.style.display = "inline";
