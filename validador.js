@@ -1,6 +1,5 @@
 (function () {
-  // document.getElementById("prrprrpatapim").remove();
-  alert("foi2");
+  document.getElementById("prrprrpatapim").remove();
   function loadFlatpickrDependencies(callback) {
     const flatpickrCss = document.createElement("link");
     flatpickrCss.rel = "stylesheet";
