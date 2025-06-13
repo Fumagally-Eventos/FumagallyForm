@@ -222,7 +222,64 @@
     console.log("\n=== DETALHES DOS CAMPOS ===");
     console.table(validationData.campos);
 
-    return { isValid, allFieldsValid };
+    return { isValid, allFieldsValid, validationData };
+  }
+
+  function updateValidationIcons(section, validationData) {
+    for (const campo of validationData.campos) {
+      let label = null;
+
+      if (campo.tipo === "Radio") {
+        const input = section.querySelector(`input[name="${campo.grupo}"]`);
+        if (input) {
+          label = document.getElementById(`${campo.grupo}label`);
+        }
+      } else if (campo.tipo === "Data/Hora") {
+        label = document.getElementById("fdatalabel");
+      } else if (campo.tipo === "Quantidade") {
+        const input = document.getElementById(campo.id);
+        if (input) {
+          label = document.getElementById(`${input.id}label`);
+        }
+      } else if (campo.tipo === "Outro") {
+        const input = section.querySelector(`[name="${campo.nome}"]`);
+        if (input) {
+          label = document.getElementById(`${campo.nome}label`);
+        }
+      }
+
+      if (label) {
+        let filledIcon = label.querySelector(".filled");
+        let unfilledIcon = label.querySelector(".unfilled");
+
+        if (!filledIcon || !unfilledIcon) {
+          // Caso não existam ainda, cria os dois ícones
+          filledIcon = document.createElement("span");
+          filledIcon.className = "filled";
+          filledIcon.textContent = "✔";
+          label.appendChild(filledIcon);
+
+          unfilledIcon = document.createElement("span");
+          unfilledIcon.className = "unfilled";
+          unfilledIcon.textContent = "⚠";
+          label.appendChild(unfilledIcon);
+        }
+
+        // Atualiza visibilidade com base na validação
+        if (campo.status === "tocado") {
+          if (campo.valido === "sim") {
+            filledIcon.style.display = "inline";
+            unfilledIcon.style.display = "none";
+          } else {
+            filledIcon.style.display = "none";
+            unfilledIcon.style.display = "inline";
+          }
+        } else {
+          filledIcon.style.display = "none";
+          unfilledIcon.style.display = "none";
+        }
+      }
+    }
   }
 
   function createMultidataFields() {
@@ -280,7 +337,9 @@
       );
 
       if (currentSection) {
-        const { isValid, allFieldsValid } = validateSection(currentSection);
+        const { isValid, allFieldsValid, validationData } =
+          validateSection(currentSection);
+        updateValidationIcons(currentSection, validationData);
         console.log("Validação após mudança de data/hora:", {
           isValid,
           allFieldsValid,
@@ -459,7 +518,8 @@
     updateCheckboxValidationIcons("qtd1.5check");
     const section = document.querySelector(".form-section");
     if (section) {
-      validateSection(section);
+      const { validationData } = validateSection(section);
+      updateValidationIcons(section, validationData);
     }
   });
   checkdoispordois.addEventListener("change", () => {
@@ -474,7 +534,8 @@
     updateCheckboxValidationIcons("qtd2x2check");
     const section = document.querySelector(".form-section");
     if (section) {
-      validateSection(section);
+      const { validationData } = validateSection(section);
+      updateValidationIcons(section, validationData);
     }
   });
   ///////////////////////////////////////////////// animacoes
@@ -616,7 +677,8 @@
 
         clearTimeout(validationTimeout);
         validationTimeout = setTimeout(() => {
-          const { isValid, allFieldsValid } = validateSection(section);
+          const { allFieldsValid, validationData } = validateSection(section);
+          updateValidationIcons(section, validationData);
 
           if (allFieldsValid && !lastValidationResult) {
             if (nextSection) {
