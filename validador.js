@@ -1,5 +1,7 @@
 (function () {
-  document.getElementById("prrprrpatapim").remove();
+  if (document.getElementById("prrprrpatapim")) {
+    document.getElementById("prrprrpatapim").remove();
+  }
   function loadFlatpickrDependencies(callback) {
     const flatpickrCss = document.createElement("link");
     flatpickrCss.rel = "stylesheet";
@@ -72,6 +74,52 @@
       },
       campos: [],
     };
+
+    // --- Validação especial para o grupo de checkboxes fobs4 na segunda seção ---
+    if (sectionNumber === 2) {
+      // IDs dos checkboxes e inputs
+      const checks = [
+        { check: "qtd2x2check", inpt: "qtd2x2inpt" },
+        { check: "qtd1.5check", inpt: "qtd1.5inpt" },
+      ];
+      let algumMarcadoEValido = false;
+      let algumTocado = false;
+      let detalhes = [];
+      for (const { check, inpt } of checks) {
+        const checkbox = document.getElementById(check);
+        const input = document.getElementById(inpt);
+        if (!checkbox || !input) continue;
+        const tocado =
+          checkbox.dataset.touched === "true" ||
+          input.dataset.touched === "true";
+        algumTocado = algumTocado || tocado;
+        const marcado = checkbox.checked;
+        const valor = parseInt(input.value, 10);
+        const valido = marcado && valor > 0;
+        if (valido) algumMarcadoEValido = true;
+        detalhes.push({
+          check,
+          inpt,
+          marcado,
+          valor: input.value,
+          tocado,
+          valido,
+        });
+      }
+      requiredFieldsCount++;
+      if (algumMarcadoEValido) validRequiredFieldsCount++;
+      validationData.campos.push({
+        tipo: "Fobs4Grupo",
+        nome: "fobs4",
+        status: algumTocado ? "tocado" : "não tocado",
+        valido: algumMarcadoEValido ? "sim" : "não",
+        detalhes,
+      });
+      if (!algumMarcadoEValido && algumTocado) {
+        isValid = false;
+        allFieldsValid = false;
+      }
+    }
 
     for (const input of inputs) {
       if (input.type === "hidden" || !input.offsetParent) continue;
@@ -228,6 +276,14 @@
           allFieldsValid = false;
         }
       }
+
+      // Pular os campos de quantidade fobs4 na seção 2, pois já foram validados acima
+      if (
+        sectionNumber === 2 &&
+        (input.id === "qtd2x2inpt" || input.id === "qtd1.5inpt")
+      ) {
+        continue;
+      }
     }
 
     // Resumo
@@ -250,8 +306,9 @@
   function updateValidationIcons(section, validationData) {
     for (const campo of validationData.campos) {
       let label = null;
-
-      if (campo.tipo === "Radio") {
+      if (campo.tipo === "Fobs4Grupo") {
+        label = document.getElementById("opcaolabel");
+      } else if (campo.tipo === "Radio") {
         const input = section.querySelector(`input[name="${campo.grupo}"]`);
         if (input) {
           label = document.getElementById(`${campo.grupo}label`);
@@ -274,23 +331,19 @@
           label = document.getElementById(`${campo.nome}label`);
         }
       }
-
       if (label) {
         let filledIcon = label.querySelector(".filled");
         let unfilledIcon = label.querySelector(".unfilled");
-
         if (!filledIcon || !unfilledIcon) {
           filledIcon = document.createElement("span");
           filledIcon.className = "filled";
           filledIcon.textContent = "✔";
           label.appendChild(filledIcon);
-
           unfilledIcon = document.createElement("span");
           unfilledIcon.className = "unfilled";
           unfilledIcon.textContent = "⚠";
           label.appendChild(unfilledIcon);
         }
-
         if (campo.status === "tocado") {
           if (campo.valido === "sim") {
             filledIcon.style.display = "inline";
