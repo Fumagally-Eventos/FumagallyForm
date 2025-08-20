@@ -4,7 +4,7 @@
   const asdf = document.getElementById("formdoc");
   document.cookie = "";
   document.cookie =
-    "PHPSESSID=509861694ab26b846caed0335d9dfef1; user_language=pt_BR; path=/; domain=app6.meeventos.com.br; samesite=None; Partitioned";
+    "user_language=pt_BR; PHPSESSID=509861694ab26b846caed0335d9dfef1; path=/; domain=app6.meeventos.com.br; samesite=None; Partitioned";
   const btn = document.createElement("div");
 
   btn.innerText = "asdf";
