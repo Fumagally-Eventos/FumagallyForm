@@ -7,7 +7,7 @@
 
   btn.innerText = "asdf";
   btn.onclick = () => {
-    console.log(window.location.origin);
+    console.log(document.cookie);
   };
 
   asdf.appendChild(btn);
