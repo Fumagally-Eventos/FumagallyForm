@@ -27,10 +27,12 @@
     }
 
     window.addEventListener("message", (e) => {
+      console.log(e, "asdfoi");
       if (e.origin !== EXPECTED_PARENT_ORIGIN) return; // segurança básica
       const msg = e.data || {};
       if (msg.type !== "SET_EMAIL" || typeof msg.email !== "string") return;
       const resp = fetchData(msg.email);
+      console.log(resp, "asdfoi2");
       e.source?.postMessage({ type: "SET_EMAIL_ACK", resp: resp }, e.origin);
     });
 
