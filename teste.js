@@ -43,42 +43,6 @@
   }
   initBridge();
 
-  React.useEffect(() => {
-    const iframeRef = React.useRef < HTMLIFrameElement > null;
-    const IFRAME_ORIGIN = "https://app6.meeventos.com.br";
-    function onMessage(e) {
-      const iframeWin = iframeRef.current?.contentWindow;
-      if (!iframeWin) return;
-
-      // Garante que a msg veio do SEU iframe e da origem esperada
-      if (e.source !== iframeWin) return;
-      if (e.origin !== IFRAME_ORIGIN) return;
-
-      const msg = e.data || {};
-      switch (msg.type) {
-        case "IFRAME_READY":
-          console.log("Iframe pronto");
-          // se quiser reenviar o e-mail quando o iframe se anunciar:
-          // iframeWin.postMessage({ type: "SET_EMAIL", email: "foo@bar.com" }, IFRAME_ORIGIN);
-          break;
-
-        case "SET_EMAIL_ACK":
-          console.log("Iframe aceitou o e-mail:", msg);
-          break;
-
-        case "SET_EMAIL_NACK":
-          console.error("Iframe recusou o e-mail:", msg);
-          break;
-
-        default:
-        // ignore
-      }
-    }
-
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, []);
-
   console.log(window.location.origin);
   const asdf = document.getElementById("formdoc");
   document.cookie =
