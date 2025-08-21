@@ -1,5 +1,6 @@
 (function () {
-  const EXPECTED_PARENT_ORIGIN = "http://localhost:3000";
+  let receivedEmail = null; // Variável para armazenar o email recebido
+
   async function fetchData(email) {
     return fetch(
       "https://app6.meeventos.com.br/fumagallyeventos/index.php?p=visualizar&pagina=consultacadastrocliente",
@@ -25,13 +26,14 @@
   }
 
   async function initBridge() {
-    const resp = await fetchData(msg.email);
     window.addEventListener("message", (e) => {
-      if (e.origin !== EXPECTED_PARENT_ORIGIN) return;
+      if (e.origin !== "http://localhost:3000") return;
       const msg = e.data || {};
       if (msg.type !== "SET_EMAIL" || typeof msg.email !== "string") return;
-      console.log(resp, "asdfoi2");
-      e.source?.postMessage({ type: "SET_EMAIL_ACK", resp: resp }, e.origin);
+
+      // Armazena o email recebido
+      receivedEmail = msg.email;
+      console.log("Email recebido:", receivedEmail);
     });
   }
   initBridge();
@@ -43,15 +45,27 @@
   const btn = document.createElement("div");
 
   btn.innerText = "asdf";
-  btn.onclick = () => {
-    console.log(document.cookie);
-    async function fetchData() {
+  btn.onclick = async () => {
+    if (!receivedEmail) {
+      console.log("Nenhum email recebido ainda");
+      return;
+    }
+
+    try {
+      const response = await fetchData(receivedEmail);
+      const responseData = await response.text(); // ou response.json() se for JSON
+
       window.parent.postMessage(
-        { type: "SET_EMAIL_ACK", data: "taltal" },
+        { type: "SET_EMAIL_ACK", data: responseData },
+        "http://localhost:3000"
+      );
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      window.parent.postMessage(
+        { type: "SET_EMAIL_ACK", data: "Erro na requisição" },
         "http://localhost:3000"
       );
     }
-    fetchData();
   };
 
   asdf.appendChild(btn);
