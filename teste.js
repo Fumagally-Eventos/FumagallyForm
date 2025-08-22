@@ -41,7 +41,7 @@
   console.log(window.location.origin);
   const asdf = document.getElementById("formdoc");
   document.cookie =
-    "PHPSESSID=509861694ab26b846caed0335d9dfef1; path=/; domain=app6.meeventos.com.br; samesite=None; Partitioned; secure";
+    "PHPSESSID=e5eff9132a1ac3f5a3442fd3a0b9260f; path=/; domain=app6.meeventos.com.br; samesite=None; Partitioned; secure";
   const btn = document.createElement("div");
 
   btn.innerText = "asdf";
